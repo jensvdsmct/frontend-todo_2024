@@ -1,9 +1,7 @@
+import { TodoOverview } from './screens/TodoOverview'
+
 function App() {
-  return (
-    <>
-      <h1>Hello budy!</h1>
-    </>
-  )
+  return <TodoOverview />
 }
 
 export default App
