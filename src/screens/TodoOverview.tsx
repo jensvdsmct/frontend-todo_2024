@@ -1,4 +1,4 @@
-import { Plus, Check, Settings, Trash2 } from 'lucide-react'
+import { Plus, Settings } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { uid } from 'uid'
 
@@ -6,12 +6,11 @@ import { Todo } from '../models/Todo'
 import { AppFooter } from '../components/AppFooter'
 import { AppHeader } from '../components/AppHeader'
 import { Link } from 'react-router-dom'
+import TodoItem from './TodoItem'
 
 export const TodoOverview = () => {
   // TODO: fade todo when checked
-  // TODO: option to delete a todo
   // TODO: show error message when input fields are empty
-  // TODO: make the input fields required (input validation - visible)
   //
   // TODO: Release better version (v1.1.0)
 
@@ -174,43 +173,14 @@ export const TodoOverview = () => {
 
         <hr className="my-4" />
 
-        <div className="">
+        <div>
           {todos.map((todo: Todo) => (
-            <div
+            <TodoItem
               key={todo.id}
-              className={`
-              flex items-center mb-4 p-3 bg-violet-100 rounded-lg dark:bg-violet-700 $ ${
-                todo.isCompleted ? 'opacity-50' : ''
-              }`}
-            >
-              <label htmlFor={todo.id} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={todo.id}
-                  className="mr-3 hidden"
-                  onChange={() => toggleTodo(todo.id!)}
-                  checked={todo.isCompleted}
-                />
-                <div className="flex items-center">
-                  <div className="text-violet-700 hover:text-violet-300 rounded-full border-2 border-violet-700 hover:border-violet-300 dark:text-violet-300 dark:border-violet-300 dark:hover:text-violet-700 dark:hover:border-violet-700 flex items-center justify-center mr-3 w-6 h-6">
-                    {todo.isCompleted && <Check size={24} />}
-                    <span className="sr-only">Mark as completed</span>
-                  </div>
-                  <div>
-                    <p className="font-bold text-lg">{todo.task}</p>
-                    <p className="text-base text-violet-950">{todo.category}</p>
-                  </div>
-                </div>
-              </label>
-
-              <button
-                className="ml-auto text-violet-700 hover:text-violet-300 dark:text-violet-300 dark:hover:text-violet-700"
-                onClick={() => deleteTodo(todo.id!)}
-              >
-                <Trash2 />
-                <span className="sr-only">Delete todo</span>
-              </button>
-            </div>
+              todo={todo}
+              toggle={toggleTodo}
+              remove={deleteTodo}
+            />
           ))}
         </div>
       </div>
