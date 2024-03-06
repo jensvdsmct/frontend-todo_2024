@@ -11,12 +11,16 @@ import { Link } from 'react-router-dom'
 // TODO 2: een geldige todo krijgt een unieke id (met de npm uid package)
 
 export const TodoOverview = () => {
-  const [todos, setTodos] = useState<Todo[]>([])
+  const [todos, setTodos] = useState<Todo[]>(localStorage.todos ? JSON.parse(localStorage.todos) : [])
   const [newTodo, setNewTodo] = useState<Todo>({
     task: '',
     category: 'choose',
     isCompleted: false,
   })
+
+  useEffect(() => {
+    localStorage.todos = JSON.stringify(todos)
+  }, [todos])
 
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -45,14 +49,16 @@ export const TodoOverview = () => {
 
   return (
     <div className=" container mx-auto rounded-lg p-10 bg-violet-50 shadow-lg dark:bg-violet-800">
-      <Link
-        to="/settings"
-        className="p-1 text-violet-700 hover:text-violet-300 dark:text-violet-300 dark:hover:text-violet-700"
-      >
-        <Settings />
-      </Link>
       <div className="flex justify-between p-1">
         <AppHeader title={title()} todoCount={todos.length} />
+        <div className="flex justify-end">
+          <Link
+            to="/settings"
+            className="pl-5 text-violet-700 hover:text-violet-300 dark:text-violet-300 dark:hover:text-violet-700"
+          >
+            <Settings />
+          </Link>
+        </div>
       </div>
       <div className="flex-1">
         <form className="my-4" onSubmit={addNewTodo}>
